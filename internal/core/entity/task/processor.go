@@ -3,11 +3,11 @@ package tasks
 import (
 	"context"
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/JonecoBoy/netCheck/internal/utils/config"
+	"github.com/JonecoBoy/netCheck/pkg/entity"
 	"log"
 	"time"
 
-	"github.com/JonecoBoy/netCheck/config"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -71,7 +71,7 @@ func processIntervalTasks() {
 				continue
 			}
 
-			if time.Since(task.LastRun).Seconds() >= float64(task.Interval) {
+			if time.Since(*task.LastRun).Seconds() >= float64(*task.ScheduledInterval) {
 				executeTask(task)
 				updateTaskLastRun(collection, task.ID)
 			}
@@ -87,7 +87,7 @@ func executeTask(task Task) {
 }
 
 // Update last run time
-func updateTaskLastRun(collection *mongo.Collection, taskID primitive.ObjectID) {
+func updateTaskLastRun(collection *mongo.Collection, taskID entity.ID) {
 	_, err := collection.UpdateOne(
 		context.TODO(),
 		bson.M{"_id": taskID},

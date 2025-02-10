@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
+	tasks "github.com/JonecoBoy/netCheck/internal/core/entity/task"
+	"github.com/JonecoBoy/netCheck/internal/presentation/router"
+	"github.com/JonecoBoy/netCheck/internal/utils/config"
 	"log"
 	"net/http"
-
-	"github.com/JonecoBoy/netCheck/config"
-	"github.com/JonecoBoy/netCheck/router"
-	"github.com/JonecoBoy/netCheck/task"
 )
 
 func main() {
@@ -23,11 +22,17 @@ func main() {
 	}()
 
 	// Start task processing in the background
-	tasks.StartTaskProcessor()
+	go tasks.StartTaskProcessor()
 
-	// Initialize router
-	roteador := router.NewRouter()
+	// Start HTTP server in a separate goroutine
+	go func() {
+		roteador := router.BuildRouter()
+		fmt.Println("Server is running on port", config.AppConfig.ServerPort)
+		log.Fatal(http.ListenAndServe(":"+config.AppConfig.ServerPort, roteador))
+	}()
 
-	fmt.Println("Server is running on port", config.AppConfig.ServerPort)
-	http.ListenAndServe(":"+config.AppConfig.ServerPort, roteador)
+	// todo start grpc and graphql
+
+	// this line will make it run forver, end stuck the program. otherwise it would run and exit.
+	select {} // Blocks forever
 }

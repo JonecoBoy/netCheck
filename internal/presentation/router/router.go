@@ -2,13 +2,14 @@ package router
 
 import (
 	"fmt"
-	"github.com/JonecoBoy/netCheck/net"
+	"github.com/JonecoBoy/netCheck/internal/core/providers/net"
+	"github.com/JonecoBoy/netCheck/pkg/nina"
 	ninaRouter "github.com/JonecoBoy/nina/router"
 	"net/http"
 )
 
-func NewRouter() *ninaRouter.ServeMux {
-	roteador := ninaRouter.NewRouter()
+func BuildRouter() *ninaRouter.ServeMux {
+	roteador := nina.NewRouter()
 
 	roteador.GET("/hello/{id}/{abc}", helloHandler, nil)
 	roteador.GET("/ping", pingHandler, nil)
