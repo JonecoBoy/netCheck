@@ -2,7 +2,7 @@ package router
 
 import (
 	"fmt"
-	"github.com/JonecoBoy/netCheck/internal/core/providers/net"
+	"github.com/JonecoBoy/netCheck/internal/infra/provider/net"
 	"github.com/JonecoBoy/netCheck/pkg/nina"
 	ninaRouter "github.com/JonecoBoy/nina/router"
 	"net/http"

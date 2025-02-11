@@ -1,0 +1,8 @@
+Infrastructure Service Providers
+
+Used to abstract technical concerns (e.g. MSMQ, email provider, etc).
+
+
+
+domain service, exemplo meu produto é adicionado dentro de uma categoria, ai se preciso validar
+essa categoria, eu posso criar um serviço de dominio para isso, e chamar ele dentro do meu

@@ -2,7 +2,6 @@ package domain
 
 import (
 	"errors"
-	"github.com/JonecoBoy/netCheck/internal/core/entity/task"
 	"time"
 )
 

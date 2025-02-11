@@ -1,0 +1,5 @@
+In an event-driven architecture, events are defined in the domain layer to represent significant occurrences within the business logic. However, the infrastructure layer often contains the implementations for handling these events, such as publishing them to message brokers, persisting them, or integrating with external systems.
+
+Example will trigger an event to rabbitMq or Kafka provider.
+So i will import the provider into the event trigger
+push notification, email, sms, socket, etc

@@ -8,11 +8,11 @@ import (
 )
 
 type User struct {
-	ID        entity.ID `json:"id"`
-	Name      string
-	Email     string
-	Password  string `json:"-"`
-	Role      int
+	ID        entity.ID `bson:"id" json:"id"`
+	Name      string    `bson:"name" json:"name"`
+	Email     string    `bson:"email" json:"email"`
+	Password  string    `bson:"-" json:"-"`
+	Role      int       `bson:"role" json:"role"`
 	CreatedAt time.Time `bson:"created_at" json:"created_at"`
 	UpdatedAt time.Time `bson:"updated_at" json:"updated_at"`
 }

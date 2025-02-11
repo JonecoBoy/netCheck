@@ -1,0 +1,2 @@
+The application layer, is responsible for coordinating tasks and orchestrating the use of domain services, entities, and repositories.
+The application layer uses these events to coordinate workflows and business processes. It listens for domain events and triggers appropriate actions, such as invoking domain services or updating repositories

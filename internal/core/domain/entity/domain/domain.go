@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"github.com/JonecoBoy/netCheck/internal/core/entity/user"
+	"github.com/JonecoBoy/netCheck/internal/core/domain/entity/user"
 	"time"
 )
 
