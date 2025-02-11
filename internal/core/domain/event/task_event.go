@@ -1,13 +1,29 @@
 package event
 
-type TaskCreated struct {
-	TaskID string
+import (
+	"time"
+)
+
+type TaskEvent struct {
+	name     string
+	dateTime time.Time
+	payload  interface{}
 }
 
-type TaskUpdated struct {
-	TaskID string
+type TaskCreated TaskEvent
+
+type TaskUpdated TaskEvent
+
+type TaskDeleted TaskEvent
+
+func (e *TaskEvent) GetName() string {
+	return e.name
 }
 
-type TaskDeleted struct {
-	TaskID string
+func (e *TaskEvent) GetDateTime() time.Time {
+	return e.dateTime
+}
+
+func (e *TaskEvent) GetPayload() interface{} {
+	return e.payload
 }

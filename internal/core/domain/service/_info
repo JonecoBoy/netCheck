@@ -1,0 +1,7 @@
+https://www.youtube.com/watch?v=YrsVayLGyjE
+
+no service applicaiton posso pegfar um produto do db, disparar sms, disparar mqtt exemplo.
+log por exemplo mandar email
+ele faz orquestracao! disso tudo alem do dominio.
+do controller mando pra esse service q faz uma cacetada de coisa doida
+ja no domain eu faco validacoes entre eless

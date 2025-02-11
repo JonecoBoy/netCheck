@@ -1,10 +1,10 @@
-package tasks
+package entity
 
 import (
 	"context"
 	"fmt"
-	"github.com/JonecoBoy/netCheck/internal/utils/config"
-	"github.com/JonecoBoy/netCheck/pkg/entity"
+	"github.com/jonecoboy/netCheck/internal/utils/config"
+	"github.com/jonecoboy/netCheck/pkg/entity"
 	"log"
 	"time"
 

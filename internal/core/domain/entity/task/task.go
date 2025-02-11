@@ -1,25 +1,28 @@
-package tasks
+package entity
 
 import (
 	"errors"
-	"github.com/JonecoBoy/netCheck/internal/core/domain/entity/user"
-	"github.com/JonecoBoy/netCheck/pkg/entity"
+	"github.com/jonecoboy/netCheck/internal/core/domain/entity/user"
+	pkgEntity "github.com/jonecoboy/netCheck/pkg/entity"
 	"github.com/robfig/cron/v3"
 	"time"
 )
 
 // Task structure
 type Task struct {
-	ID                entity.ID  `json:"id" bson:"id"`
-	User              user.User  `json:"user" bson:"user"`
-	Name              string     `json:"name" bson:"name"`
-	Description       string     `json:"description" bson:"description"`
-	Type              int        `json:"type" bson:"type"`                             // "fixed" or "interval" or "crontab"
-	ScheduledTime     *time.Time `json:"scheduled_time" bson:"scheduled_time"`         // Only for "fixed" tasks
-	ScheduledInterval *int       `json:"scheduled_interval" bson:"scheduled_interval"` // Only for "interval" tasks in seconds
-	CronTab           *string    `json:"cron_tab" bson:"cron_tab"`                     // Only for "crontab" tasks
-	LastRun           *time.Time `json:"last_run" bson:"last_run"`
-	Command           string     `json:"command" bson:"command"`
+	ID                pkgEntity.ID `json:"id" bson:"id"`
+	User              entity.User  `json:"user" bson:"user"`
+	Name              string       `json:"name" bson:"name"`
+	Description       string       `json:"description" bson:"description"`
+	Type              int          `json:"type" bson:"type"`                             // "fixed" or "interval" or "crontab"
+	ScheduledTime     *time.Time   `json:"scheduled_time" bson:"scheduled_time"`         // Only for "fixed" tasks
+	ScheduledInterval *int         `json:"scheduled_interval" bson:"scheduled_interval"` // Only for "interval" tasks in seconds
+	CronTab           *string      `json:"cron_tab" bson:"cron_tab"`                     // Only for "crontab" tasks
+	LastRun           *time.Time   `json:"last_run" bson:"last_run"`
+	Command           string       `json:"command" bson:"command"`
+	CreatedAt         time.Time    `bson:"created_at" json:"created_at"`
+	UpdatedAt         time.Time    `bson:"updated_at" json:"updated_at"`
+	DeletedAt         time.Time    `bson:"deleted_at" json:"deleted_at"`
 }
 
 const (
@@ -30,7 +33,7 @@ const (
 
 func newTask(name string, description string, taskType int, time *time.Time, interval *int, crontab *string, command string) (*Task, error) {
 	task := &Task{
-		ID:                entity.NewId(),
+		ID:                pkgEntity.NewId(),
 		Name:              name,
 		Description:       description,
 		Type:              taskType,

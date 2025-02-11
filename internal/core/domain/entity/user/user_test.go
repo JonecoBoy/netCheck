@@ -1,4 +1,4 @@
-package user
+package entity
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -30,8 +30,8 @@ func TestUser_ValidatePassword(t *testing.T) {
 	role := user_role_enum_user
 	user, err := NewUser(name, email, password, role)
 	assert.Nil(t, err)
-	assert.True(t, user.ValidatePassword("123456"))
-	assert.False(t, user.ValidatePassword("1234567"))
+	assert.NotNil(t, user.ValidatePassword("123456"))
+	assert.Error(t, user.ValidatePassword("1234567"))
 	// will garantee that password is hashed.
 	assert.NotEqual(t, "123456", user.Password)
 }

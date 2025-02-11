@@ -1,8 +1,8 @@
-package user
+package entity
 
 import (
 	"errors"
-	"github.com/JonecoBoy/netCheck/pkg/entity"
+	"github.com/jonecoboy/netCheck/pkg/entity"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
@@ -15,6 +15,7 @@ type User struct {
 	Role      int       `bson:"role" json:"role"`
 	CreatedAt time.Time `bson:"created_at" json:"created_at"`
 	UpdatedAt time.Time `bson:"updated_at" json:"updated_at"`
+	DeletedAt time.Time `bson:"deleted_at" json:"deleted_at"`
 }
 
 const (
@@ -32,9 +33,12 @@ func (u *User) validateUser() error {
 	}
 }
 
-func (u *User) ValidatePassword(password string) bool {
+func (u *User) ValidatePassword(password string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
-	return err == nil
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func NewUser(name string, email string, password string, role int) (*User, error) {

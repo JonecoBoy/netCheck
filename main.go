@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/JonecoBoy/netCheck/internal/core/domain/entity/task"
-	"github.com/JonecoBoy/netCheck/internal/presentation/router"
-	"github.com/JonecoBoy/netCheck/internal/utils/config"
+	"github.com/jonecoboy/netCheck/internal/core/domain/entity/task"
+	"github.com/jonecoboy/netCheck/internal/presentation/router"
+	"github.com/jonecoboy/netCheck/internal/utils/config"
 	"log"
 	"net/http"
 )
@@ -22,7 +22,8 @@ func main() {
 	}()
 
 	// Start task processing in the background
-	go tasks.StartTaskProcessor()
+	// remover do entity! por num service domain ou application
+	go entity.StartTaskProcessor()
 
 	// Start HTTP server in a separate goroutine
 	go func() {

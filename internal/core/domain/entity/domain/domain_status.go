@@ -1,13 +1,14 @@
-package domain
+package entity
 
 import (
 	"errors"
+	entity "github.com/jonecoboy/netCheck/internal/core/domain/entity/task"
 	"time"
 )
 
 type DomainStatus struct {
 	Domain           Domain
-	Task             tasks.tasks
+	Task             entity.Task
 	Records          []Record
 	DomainStatusEnum int       `json:"domain_status_enum" bson:"domain_status_enum"`
 	CreatedAt        time.Time `bson:"created_at" json:"created_at"`
