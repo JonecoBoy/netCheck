@@ -1,6 +1,8 @@
 package service
 
-import entity "github.com/jonecoboy/netCheck/internal/core/domain/entity/user"
+import (
+	"github.com/jonecoboy/netCheck/internal/core/domain/entity"
+)
 
 type UserService struct{}
 

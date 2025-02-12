@@ -1,6 +1,8 @@
 package event
 
-import entity "github.com/jonecoboy/netCheck/internal/core/domain/entity/subscription"
+import (
+	"github.com/jonecoboy/netCheck/internal/core/domain/entity"
+)
 
 type SubscriptionService struct{}
 

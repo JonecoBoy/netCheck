@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/jonecoboy/netCheck/internal/core/domain/entity/order"
+	"github.com/jonecoboy/netCheck/internal/core/domain/entity"
 	pkgEntity "github.com/jonecoboy/netCheck/pkg/entity"
 )
 

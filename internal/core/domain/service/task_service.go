@@ -1,6 +1,8 @@
 package service
 
-import entity "github.com/jonecoboy/netCheck/internal/core/domain/entity/task"
+import (
+	"github.com/jonecoboy/netCheck/internal/core/domain/entity"
+)
 
 // Domain Service
 // Encapsulates domain logic that operates on multiple entities.

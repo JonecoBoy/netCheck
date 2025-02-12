@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/jonecoboy/netCheck/internal/core/domain/entity/subscription"
+	"github.com/jonecoboy/netCheck/internal/core/domain/entity"
 )
 
 type SubscriptionService struct{}

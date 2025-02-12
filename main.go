@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/jonecoboy/netCheck/internal/core/domain/entity/task"
+	"github.com/jonecoboy/netCheck/internal/core/domain/entity"
 	"github.com/jonecoboy/netCheck/internal/presentation/router"
 	"github.com/jonecoboy/netCheck/internal/utils/config"
 	"log"

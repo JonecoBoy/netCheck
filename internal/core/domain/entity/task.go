@@ -2,7 +2,6 @@ package entity
 
 import (
 	"errors"
-	"github.com/jonecoboy/netCheck/internal/core/domain/entity/user"
 	pkgEntity "github.com/jonecoboy/netCheck/pkg/entity"
 	"github.com/robfig/cron/v3"
 	"time"
@@ -11,7 +10,7 @@ import (
 // Task structure
 type Task struct {
 	ID                pkgEntity.ID `json:"id" bson:"id"`
-	User              entity.User  `json:"user" bson:"user"`
+	User              User         `json:"user" bson:"user"`
 	Name              string       `json:"name" bson:"name"`
 	Description       string       `json:"description" bson:"description"`
 	Type              int          `json:"type" bson:"type"`                             // "fixed" or "interval" or "crontab"

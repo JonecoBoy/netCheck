@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	entity2 "github.com/jonecoboy/netCheck/internal/core/domain/entity"
 	"github.com/jonecoboy/netCheck/internal/core/domain/entity/order"
 	"github.com/jonecoboy/netCheck/internal/core/domain/repository"
 	"github.com/jonecoboy/netCheck/pkg/entity"
@@ -24,9 +25,9 @@ func (r *MySQLOrderRepository) Save(order *order.Order) error {
 	return err
 }
 
-func (r *MySQLOrderRepository) FindByID(id entity.ID) (*entity.Order, error) {
+func (r *MySQLOrderRepository) FindByID(id entity.ID) (*entity2.Order, error) {
 	row := r.Db.QueryRow("SELECT id, price, tax, final_price FROM orders WHERE id = ?", id)
-	var order entity.Order
+	var order entity2.Order
 	err := row.Scan(&order.ID, &order.Price, &order.Tax, &order.FinalPrice)
 	if err != nil {
 		return nil, err

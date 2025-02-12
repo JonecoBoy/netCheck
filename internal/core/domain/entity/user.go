@@ -3,19 +3,21 @@ package entity
 import (
 	"errors"
 	"github.com/jonecoboy/netCheck/pkg/entity"
+	"go.mongodb.org/mongo-driver/mongo/address"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
 type User struct {
-	ID        entity.ID `bson:"id" json:"id"`
-	Name      string    `bson:"name" json:"name"`
-	Email     string    `bson:"email" json:"email"`
-	Password  string    `bson:"-" json:"-"`
-	Role      int       `bson:"role" json:"role"`
-	CreatedAt time.Time `bson:"created_at" json:"created_at"`
-	UpdatedAt time.Time `bson:"updated_at" json:"updated_at"`
-	DeletedAt time.Time `bson:"deleted_at" json:"deleted_at"`
+	ID        entity.ID         `bson:"id" json:"id"`
+	Name      string            `bson:"name" json:"name"`
+	Email     string            `bson:"email" json:"email"`
+	Password  string            `bson:"-" json:"-"`
+	Role      int               `bson:"role" json:"role"`
+	Addresses []address.Address `bson:"addresses" json:"addresses"`
+	CreatedAt time.Time         `bson:"created_at" json:"created_at"`
+	UpdatedAt time.Time         `bson:"updated_at" json:"updated_at"`
+	DeletedAt time.Time         `bson:"deleted_at" json:"deleted_at"`
 }
 
 const (
