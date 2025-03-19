@@ -6,9 +6,9 @@ import (
 )
 
 type DomainStatus struct {
-	Domain           Domain
-	Task             Task
-	Records          []Record
+	Domain           *Domain
+	Task             *Task
+	Records          []*Record
 	DomainStatusEnum int       `json:"domain_status_enum" bson:"domain_status_enum"`
 	CreatedAt        time.Time `bson:"created_at" json:"created_at"`
 	UpdatedAt        time.Time `bson:"updated_at" json:"updated_at"`

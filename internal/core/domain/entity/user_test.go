@@ -30,7 +30,7 @@ func TestUser_ValidatePassword(t *testing.T) {
 	role := user_role_enum_user
 	user, err := NewUser(name, email, password, role)
 	assert.Nil(t, err)
-	assert.NotNil(t, user.ValidatePassword("123456"))
+	assert.Nil(t, user.ValidatePassword("123456"))
 	assert.Error(t, user.ValidatePassword("1234567"))
 	// will garantee that password is hashed.
 	assert.NotEqual(t, "123456", user.Password)

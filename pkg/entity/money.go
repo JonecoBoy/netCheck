@@ -11,8 +11,8 @@ type Money struct {
 	Currency Currency
 }
 
-func NewMoney(value int, currency Currency) Money {
-	return Money{Value: value, Currency: currency}
+func NewMoney(value int, currency Currency) *Money {
+	return &Money{Value: value, Currency: currency}
 }
 
 func (m Money) ToFloat64() float64 {

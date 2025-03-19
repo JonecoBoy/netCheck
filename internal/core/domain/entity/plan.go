@@ -7,13 +7,13 @@ import (
 )
 
 type Plan struct {
-	ID          entity.ID    `json:"id" bson:"id"`
-	Name        string       `json:"name" bson:"name"`
-	Description string       `json:"description" bson:"description"`
-	Price       entity.Money `json:"price" bson:"price"`
-	CreatedAt   time.Time    `bson:"created_at" json:"created_at"`
-	UpdatedAt   time.Time    `bson:"updated_at" json:"updated_at"`
-	DeletedAt   time.Time    `bson:"deleted_at" json:"deleted_at"`
+	ID          entity.ID     `json:"id" bson:"id"`
+	Name        string        `json:"name" bson:"name"`
+	Description string        `json:"description" bson:"description"`
+	Price       *entity.Money `json:"price" bson:"price"`
+	CreatedAt   time.Time     `bson:"created_at" json:"created_at"`
+	UpdatedAt   time.Time     `bson:"updated_at" json:"updated_at"`
+	DeletedAt   time.Time     `bson:"deleted_at" json:"deleted_at"`
 }
 
 func (p *Plan) validate() error {
@@ -31,7 +31,7 @@ func NewPlan(name string, description string, price entity.Money) (*Plan, error)
 		ID:          entity.NewId(),
 		Name:        name,
 		Description: description,
-		Price:       price,
+		Price:       &price,
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
 	}

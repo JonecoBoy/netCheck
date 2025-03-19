@@ -2,30 +2,29 @@ package entity
 
 import (
 	pkgEntity "github.com/jonecoboy/netCheck/pkg/entity"
-	"os/user"
 	"time"
 )
 
 type Domain struct {
 	ID        pkgEntity.ID
 	Domain    string
-	User      user.User
-	Records   []Record
+	User      *User
+	Records   []*Record
 	CreatedAt time.Time `bson:"created_at" json:"created_at"`
 	UpdatedAt time.Time `bson:"updated_at" json:"updated_at"`
 	DeletedAt time.Time `bson:"deleted_at" json:"deleted_at"`
 }
 
 type Record struct {
-	Domain  Domain
+	Domain  *Domain
 	Type    string
 	Name    string
 	Content string
 }
 
 type DomainRole struct {
-	Domain Domain
-	User   user.User
+	Domain *Domain
+	User   *User
 	Roles  int
 }
 

@@ -14,13 +14,12 @@ const (
 	TaxDiscount
 )
 
-
 type Order struct {
 	ID        pkgEntity.ID `json:"id" bson:"id"`
-	User      User         `json:"user" bson:"user"`
-	Addresses Addresses    `json:"addresses" bson:"addresses"`
-	Items     []OrderItem  `json:"items" bson:"items"`
-	Totals    Totals       `json:"totals" bson:"totals"`
+	User      *User        `json:"user" bson:"user"`
+	Addresses *Addresses   `json:"addresses" bson:"addresses"`
+	Items     []*OrderItem `json:"items" bson:"items"`
+	Totals    *Totals      `json:"totals" bson:"totals"`
 	CreatedAt time.Time    `bson:"created_at" json:"created_at"`
 	UpdatedAt time.Time    `bson:"updated_at" json:"updated_at"`
 	DeletedAt time.Time    `bson:"deleted_at" json:"deleted_at"`
@@ -51,7 +50,7 @@ func (o *Order) CalculateSubtotal() {
 	for _, item := range o.Items {
 		subtotal += item.Price.Value * item.Quantity
 	}
-	o.Totals.Subtotal = pkgEntity.NewMoney(subtotal, o.Items[0].Price.Currency)
+	o.Totals.Subtotal = *pkgEntity.NewMoney(subtotal, o.Items[0].Price.Currency)
 }
 
 func (o *Order) CalculateTotal() {
@@ -69,5 +68,5 @@ func (o *Order) CalculateTotal() {
 		}
 	}
 
-	o.Totals.Total = pkgEntity.NewMoney(o.Totals.Subtotal.Value-discountValue+o.Totals.Shipping.Value, o.Totals.Subtotal.Currency)
+	o.Totals.Total = *pkgEntity.NewMoney(o.Totals.Subtotal.Value-discountValue+o.Totals.Shipping.Value, o.Totals.Subtotal.Currency)
 }
