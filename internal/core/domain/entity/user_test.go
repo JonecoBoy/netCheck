@@ -9,7 +9,7 @@ func TestUser_NewUser(t *testing.T) {
 	name := "Joneco"
 	email := "joneco@joneco.com.br"
 	password := "123456"
-	role := user_role_enum_user
+	role := UserRoleEnumUser
 	user, err := NewUser(name, email, password, role)
 
 	assert.Nil(t, err)
@@ -18,8 +18,8 @@ func TestUser_NewUser(t *testing.T) {
 	assert.NotEmpty(t, user.Password)
 	assert.Equal(t, name, user.Name)
 	assert.Equal(t, email, user.Email)
-	assert.NotEqual(t, role, user_role_enum_admin)
-	assert.Equal(t, role, user_role_enum_user)
+	assert.NotEqual(t, role, UserRoleEnumAdmin)
+	assert.Equal(t, role, UserRoleEnumUser)
 
 }
 
@@ -27,7 +27,7 @@ func TestUser_ValidatePassword(t *testing.T) {
 	name := "Joneco"
 	email := "joneco@joneco.com.br"
 	password := "123456"
-	role := user_role_enum_user
+	role := UserRoleEnumUser
 	user, err := NewUser(name, email, password, role)
 	assert.Nil(t, err)
 	assert.Nil(t, user.ValidatePassword("123456"))

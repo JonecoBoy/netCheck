@@ -9,7 +9,7 @@ import (
 func TestOrder_CalculateSubtotal(t *testing.T) {
 	item := OrderItem{
 		ItemID:   pkgEntity.NewId(),
-		ItemType: ProductType,
+		ItemType: ItemTypeEnumProduct,
 		Name:     "Item",
 		Price:    pkgEntity.NewMoney(100, "USD"),
 		Quantity: 1,
@@ -29,7 +29,7 @@ func TestOrder_CalculateSubtotal(t *testing.T) {
 func TestOrder_CalculateTotal(t *testing.T) {
 	item := OrderItem{
 		ItemID:   pkgEntity.NewId(),
-		ItemType: ProductType,
+		ItemType: ItemTypeEnumProduct,
 		Name:     "Item",
 		Price:    pkgEntity.NewMoney(100, "USD"),
 		Quantity: 1,
@@ -37,7 +37,7 @@ func TestOrder_CalculateTotal(t *testing.T) {
 	discount := Discount{
 		ID:          pkgEntity.NewId(),
 		Description: "10% off",
-		Type:        PercentDiscount,
+		Type:        DiscountTypeEnumPercent,
 		Percent:     new(int),
 	}
 	*discount.Percent = 10

@@ -14,13 +14,14 @@ type OrderItem struct {
 }
 
 const (
-	ProductType ItemTypeEnum = iota
-	SubscriptionType
+	_ ItemTypeEnum = iota
+	ItemTypeEnumProduct
+	ItemTypeEnumSubscription
 )
 
 func (e ItemTypeEnum) IsValid() bool {
 	switch e {
-	case ProductType, SubscriptionType:
+	case ItemTypeEnumProduct, ItemTypeEnumSubscription:
 		return true
 	default:
 		return false

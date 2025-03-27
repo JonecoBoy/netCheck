@@ -13,12 +13,12 @@ func TestNewTaskScheduledTime(t *testing.T) {
 
 	// Test Fixed Time Task
 	scheduledTime := time.Now().Add(1 * time.Hour)
-	task, err := newTask(name, description, Task_type_enum_fixed_time, &scheduledTime, nil, nil, command)
+	task, err := NewTask(name, description, TaskTypeEnumFixedTime, &scheduledTime, nil, nil, command)
 	assert.Nil(t, err)
 	assert.Equal(t, name, task.Name)
 	assert.Equal(t, description, task.Description)
 	assert.Equal(t, command, task.Command)
-	assert.Equal(t, Task_type_enum_fixed_time, task.Type)
+	assert.Equal(t, TaskTypeEnumFixedTime, task.Type)
 	assert.Equal(t, scheduledTime, *task.ScheduledTime)
 }
 func TestNewTaskScheduledInterval(t *testing.T) {
@@ -28,12 +28,12 @@ func TestNewTaskScheduledInterval(t *testing.T) {
 
 	// Test Interval Task
 	interval := 3600
-	task, err := newTask(name, description, Task_type_enum_interval, nil, &interval, nil, command)
+	task, err := NewTask(name, description, TaskTypeEnumInterval, nil, &interval, nil, command)
 	assert.Nil(t, err)
 	assert.Equal(t, name, task.Name)
 	assert.Equal(t, description, task.Description)
 	assert.Equal(t, command, task.Command)
-	assert.Equal(t, Task_type_enum_interval, task.Type)
+	assert.Equal(t, TaskTypeEnumInterval, task.Type)
 	assert.Equal(t, interval, *task.ScheduledInterval)
 
 }
@@ -44,11 +44,11 @@ func TestNewTaskCronTab(t *testing.T) {
 
 	// Test Crontab Task
 	cronTab := "0 0 * * *"
-	task, err := newTask(name, description, Task_type_enum_crontab, nil, nil, &cronTab, command)
+	task, err := NewTask(name, description, TaskTypeEnumCrontab, nil, nil, &cronTab, command)
 	assert.Nil(t, err)
 	assert.Equal(t, name, task.Name)
 	assert.Equal(t, description, task.Description)
 	assert.Equal(t, command, task.Command)
-	assert.Equal(t, Task_type_enum_crontab, task.Type)
+	assert.Equal(t, TaskTypeEnumCrontab, task.Type)
 	assert.Equal(t, cronTab, *task.CronTab)
 }

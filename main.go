@@ -22,7 +22,7 @@ func main() {
 	}()
 
 	// Start task processing in the background
-	// remover do entity! por num service domain ou application
+	// remover do entity! por num repository domain ou application
 	go entity.StartTaskProcessor()
 
 	// Start HTTP server in a separate goroutine

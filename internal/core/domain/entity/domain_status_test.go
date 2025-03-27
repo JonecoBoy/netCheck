@@ -8,36 +8,33 @@ import (
 )
 
 func TestDomainStatus_ValidateStatus(t *testing.T) {
+	domain := NewDomain("example.com", nil, nil)
+
 	tests := []struct {
 		statusEnum int
 		expectErr  bool
 	}{
-		{Domain_status_enum_unknown, false},
-		{Domain_status_enum_online, false},
-		{Domain_status_enum_offline, false},
+		{DomainStatusEnumUnknown, false},
+		{DomainStatusEnumOnline, false},
+		{DomainStatusEnumOffline, false},
 		{999, true}, // Invalid status
 	}
 
 	for _, test := range tests {
-		domainStatus := &DomainStatus{
-			DomainStatusEnum: test.statusEnum,
-		}
+		domainStatus := NewDomainStatus(domain, nil, nil, DomainStatusEnumOnline)
 		err := domainStatus.ValidateStatus()
 		if test.expectErr {
-			assert.NotNil(t, err)
+			assert.Error(t, err)
 		} else {
-			assert.Nil(t, err)
+			assert.NoError(t, err)
 		}
 	}
 }
 
 func TestDomainStatus_Timestamps(t *testing.T) {
-	now := time.Now()
-	domainStatus := &DomainStatus{
-		CreatedAt: now,
-		UpdatedAt: now,
-	}
+	domain := NewDomain("example.com", nil, nil)
+	domainStatus := NewDomainStatus(domain, nil, nil, DomainStatusEnumOnline)
 
-	assert.Equal(t, now, domainStatus.CreatedAt)
-	assert.Equal(t, now, domainStatus.UpdatedAt)
+	assert.WithinDuration(t, time.Now(), domainStatus.CreatedAt, time.Second)
+	assert.WithinDuration(t, time.Now(), domainStatus.UpdatedAt, time.Second)
 }

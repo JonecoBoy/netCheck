@@ -8,7 +8,7 @@ import (
 
 func TestNewOrderItem(t *testing.T) {
 	itemID := pkgEntity.NewId()
-	itemType := ProductType
+	itemType := ItemTypeEnumProduct
 	name := "Test Item"
 	price := pkgEntity.NewMoney(100, "USD")
 	quantity := 2

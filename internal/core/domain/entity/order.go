@@ -6,12 +6,13 @@ import (
 )
 
 type ItemTypeEnum int
-type DiscountType int
+type DiscountTypeEnum int
 
 const (
-	MoneyDiscount DiscountType = iota
-	PercentDiscount
-	TaxDiscount
+	_ DiscountTypeEnum = iota
+	DiscountTypeEnumMoney
+	DiscountTypeEnumPercent
+	DiscountTypeEnumTax
 )
 
 type Order struct {
@@ -33,7 +34,7 @@ type Addresses struct {
 type Discount struct {
 	ID          pkgEntity.ID     `json:"id" bson:"id"`
 	Description string           `json:"description" bson:"description"`
-	Type        DiscountType     `json:"type" bson:"type"`
+	Type        DiscountTypeEnum `json:"type" bson:"type"`
 	Money       *pkgEntity.Money `json:"money,omitempty" bson:"money,omitempty"`
 	Percent     *int             `json:"percent,omitempty" bson:"percent,omitempty"`
 }
@@ -43,6 +44,71 @@ type Totals struct {
 	Subtotal  pkgEntity.Money `json:"subtotal" bson:"subtotal"`
 	Discounts []Discount      `json:"discounts" bson:"discounts"`
 	Total     pkgEntity.Money `json:"total" bson:"total"`
+}
+
+func NewOrder(user *User, addresses *Addresses, items []*OrderItem, shipping pkgEntity.Money, discounts []Discount) *Order {
+	now := time.Now()
+
+	order := &Order{
+		ID:        pkgEntity.NewId(),
+		User:      user,
+		Addresses: addresses,
+		Items:     items,
+		Totals: &Totals{
+			Shipping:  shipping,
+			Discounts: discounts,
+		},
+		CreatedAt: now,
+		UpdatedAt: now,
+	}
+
+	order.CalculateSubtotal()
+	order.CalculateTotal()
+
+	return order
+}
+
+func NewDiscount(description string, DiscountTypeEnum DiscountTypeEnum, value int, currency pkgEntity.Currency) Discount {
+	switch DiscountTypeEnum {
+	case DiscountTypeEnumMoney:
+		return Discount{
+			ID:          pkgEntity.NewId(),
+			Description: description,
+			Type:        DiscountTypeEnumMoney,
+			Money:       pkgEntity.NewMoney(value, currency),
+		}
+	case DiscountTypeEnumPercent:
+		return Discount{
+			ID:          pkgEntity.NewId(),
+			Description: description,
+			Type:        DiscountTypeEnumPercent,
+			Percent:     &value,
+		}
+	case DiscountTypeEnumTax:
+		// Assuming DiscountTypeEnumTax is treated like DiscountTypeEnumMoney
+		return Discount{
+			ID:          pkgEntity.NewId(),
+			Description: description,
+			Type:        DiscountTypeEnumTax,
+			Money:       pkgEntity.NewMoney(value, currency),
+		}
+	default:
+		// fallback to unknown/zero discount
+		return Discount{
+			ID:          pkgEntity.NewId(),
+			Description: description,
+			Type:        DiscountTypeEnum,
+		}
+	}
+}
+
+func NewTotals(subtotal, shipping pkgEntity.Money, discounts []Discount) *Totals {
+	return &Totals{
+		Subtotal:  subtotal,
+		Shipping:  shipping,
+		Discounts: discounts,
+		Total:     *pkgEntity.NewMoney(0, subtotal.Currency), // total will be set later
+	}
 }
 
 func (o *Order) CalculateSubtotal() {
@@ -57,11 +123,11 @@ func (o *Order) CalculateTotal() {
 	discountValue := 0
 	for _, discount := range o.Totals.Discounts {
 		switch discount.Type {
-		case MoneyDiscount:
+		case DiscountTypeEnumMoney:
 			if discount.Money != nil {
 				discountValue += discount.Money.Value
 			}
-		case PercentDiscount:
+		case DiscountTypeEnumPercent:
 			if discount.Percent != nil {
 				discountValue += o.Totals.Subtotal.Value * *discount.Percent / 100
 			}

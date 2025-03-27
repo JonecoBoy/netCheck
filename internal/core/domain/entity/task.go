@@ -2,6 +2,7 @@ package entity
 
 import (
 	"errors"
+	"fmt"
 	pkgEntity "github.com/jonecoboy/netCheck/pkg/entity"
 	"github.com/robfig/cron/v3"
 	"time"
@@ -25,12 +26,13 @@ type Task struct {
 }
 
 const (
-	Task_type_enum_fixed_time = iota
-	Task_type_enum_interval
-	Task_type_enum_crontab
+	_ = iota
+	TaskTypeEnumFixedTime
+	TaskTypeEnumInterval
+	TaskTypeEnumCrontab
 )
 
-func newTask(name string, description string, taskType int, time *time.Time, interval *int, crontab *string, command string) (*Task, error) {
+func NewTask(name string, description string, taskType int, time *time.Time, interval *int, crontab *string, command string) (*Task, error) {
 	task := &Task{
 		ID:                pkgEntity.NewId(),
 		Name:              name,
@@ -41,7 +43,7 @@ func newTask(name string, description string, taskType int, time *time.Time, int
 		CronTab:           crontab,
 		Command:           command,
 	}
-	err := task.validateTask()
+	err := task.Validate()
 	if err != nil {
 		return nil, err
 	}
@@ -53,10 +55,10 @@ func ValidateCronTab(cronTab string) error {
 	return err
 }
 
-func (t *Task) validateTask() error {
+func (t *Task) Validate() error {
 	// validate task type
 	switch t.Type {
-	case Task_type_enum_fixed_time:
+	case TaskTypeEnumFixedTime:
 		if t.ScheduledTime == nil {
 			return errors.New("Fixed Time Task should have the ScheduledTime field filled")
 		}
@@ -64,7 +66,7 @@ func (t *Task) validateTask() error {
 			return errors.New("Fixed Time Task should have the fields ScheduledInterval and CronTab empty")
 		}
 		return nil
-	case Task_type_enum_interval:
+	case TaskTypeEnumInterval:
 		if t.ScheduledInterval == nil {
 			return errors.New("Interval Task should have the ScheduledInterval field filled")
 		}
@@ -72,7 +74,7 @@ func (t *Task) validateTask() error {
 			return errors.New("Fixed Time Task should have the fields ScheduledTime and CronTab empty")
 		}
 		return nil
-	case Task_type_enum_crontab:
+	case TaskTypeEnumCrontab:
 		if t.CronTab == nil {
 			return errors.New("Crontab Task should have the CronTab field filled")
 		}
@@ -88,4 +90,40 @@ func (t *Task) validateTask() error {
 	default:
 		return errors.New("invalid task type")
 	}
+}
+func (t *Task) ShouldRun(now time.Time) bool {
+	switch t.Type {
+	case TaskTypeEnumFixedTime:
+		return t.ScheduledTime != nil && now.Format("15:04") == t.ScheduledTime.Format("15:04")
+
+	case TaskTypeEnumInterval:
+		if t.ScheduledInterval == nil {
+			return false
+		}
+		if t.LastRun == nil {
+			return true
+		}
+		return time.Since(*t.LastRun) >= time.Duration(*t.ScheduledInterval)*time.Second
+
+	case TaskTypeEnumCrontab:
+		if t.CronTab == nil {
+			return false
+		}
+		sched, err := cron.ParseStandard(*t.CronTab)
+		if err != nil {
+			return false
+		}
+		if t.LastRun == nil {
+			return true
+		}
+		next := sched.Next(*t.LastRun)
+		return now.After(next)
+	}
+
+	return false
+}
+
+func (t *Task) Execute() {
+	// In real DDD, you'd dispatch the command to a handler
+	fmt.Println("Executing:", t.Command)
 }

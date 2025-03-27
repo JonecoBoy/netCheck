@@ -17,7 +17,7 @@ type Domain struct {
 
 type Record struct {
 	Domain  *Domain
-	Type    string
+	Type    DomainTypeEnum
 	Name    string
 	Content string
 }
@@ -28,10 +28,42 @@ type DomainRole struct {
 	Roles  int
 }
 
+type DomainTypeEnum int
+
 const (
-	Domain_type_enum_A = iota
-	Domain_type_enum_AAA
-	Domain_type_enum_CNAME
-	Domain_type_enum_TXT
-	Domain_type_enum_MX
+	_ DomainTypeEnum = iota
+	DomainTypeEnumA
+	DomainTypeEnumAAA
+	DomainTypeEnumCNAME
+	DomainTypeEnumTXT
+	DomainTypeEnumMX
 )
+
+func (e DomainTypeEnum) IsValid() bool {
+	switch e {
+	case DomainTypeEnumA, DomainTypeEnumAAA, DomainTypeEnumCNAME, DomainTypeEnumTXT, DomainTypeEnumMX:
+		return true
+	default:
+		return false
+	}
+}
+
+func NewDomain(domain string, user *User, records []*Record) *Domain {
+	now := time.Now()
+
+	d := &Domain{
+		ID:        pkgEntity.NewId(),
+		Domain:    domain,
+		User:      user,
+		Records:   records,
+		CreatedAt: now,
+		UpdatedAt: now,
+	}
+
+	// Optionally, set domain reference in each record
+	for _, r := range records {
+		r.Domain = d
+	}
+
+	return d
+}

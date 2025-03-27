@@ -9,20 +9,50 @@ type DomainStatus struct {
 	Domain           *Domain
 	Task             *Task
 	Records          []*Record
-	DomainStatusEnum int       `json:"domain_status_enum" bson:"domain_status_enum"`
-	CreatedAt        time.Time `bson:"created_at" json:"created_at"`
-	UpdatedAt        time.Time `bson:"updated_at" json:"updated_at"`
+	DomainStatusEnum DomainStatusEnum `json:"domain_status_enum" bson:"domain_status_enum"`
+	CreatedAt        time.Time        `bson:"created_at" json:"created_at"`
+	UpdatedAt        time.Time        `bson:"updated_at" json:"updated_at"`
 }
 
+type DomainStatusEnum int
+
 const (
-	Domain_status_enum_unknown = iota
-	Domain_status_enum_online
-	Domain_status_enum_offline
+	_ = iota
+	DomainStatusEnumUnknown
+	DomainStatusEnumOnline
+	DomainStatusEnumOffline
 )
+
+func (e DomainStatusEnum) IsValid() bool {
+	switch e {
+	case DomainStatusEnumUnknown, DomainStatusEnumOnline, DomainStatusEnumOffline:
+		return true
+	default:
+		return false
+	}
+}
+
+func NewDomainStatus(
+	domain *Domain,
+	task *Task,
+	records []*Record,
+	statusEnum DomainStatusEnum,
+) *DomainStatus {
+	now := time.Now()
+
+	return &DomainStatus{
+		Domain:           domain,
+		Task:             task,
+		Records:          records,
+		DomainStatusEnum: statusEnum,
+		CreatedAt:        now,
+		UpdatedAt:        now,
+	}
+}
 
 func (d *DomainStatus) ValidateStatus() error {
 	switch d.DomainStatusEnum {
-	case Domain_status_enum_unknown, Domain_status_enum_online, Domain_status_enum_offline:
+	case DomainStatusEnumUnknown, DomainStatusEnumOnline, DomainStatusEnumOffline:
 		return nil
 	default:
 		return errors.New("invalid domain status")

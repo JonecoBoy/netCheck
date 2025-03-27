@@ -21,14 +21,24 @@ type User struct {
 }
 
 const (
-	user_role_enum_user = iota
-	user_role_enum_admin
+	_ = iota
+	UserRoleEnumUser
+	UserRoleEnumAdmin
 )
+
+func ValidateUserRole(role int) error {
+	switch role {
+	case UserRoleEnumUser, UserRoleEnumAdmin:
+		return nil
+	default:
+		return errors.New("invalid user role")
+	}
+}
 
 func (u *User) validateUser() error {
 	// validate user Role
 	switch u.Role {
-	case user_role_enum_user, user_role_enum_admin:
+	case UserRoleEnumUser, UserRoleEnumAdmin:
 		return nil
 	default:
 		return errors.New("invalid user role")

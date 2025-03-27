@@ -7,7 +7,8 @@ type StatusEnum int
 type RoleEnum int
 
 const (
-	Created StatusEnum = iota
+	_ StatusEnum = iota
+	Created
 	Pending
 	Approved
 	Rejected
